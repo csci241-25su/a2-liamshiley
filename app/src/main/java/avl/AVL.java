@@ -41,14 +41,32 @@ public class AVL {
   /* insert w into the tree rooted at n, ignoring balance
    * pre: n is not null */
   private void bstInsert(Node n, String w) {
-    // TODO
+    if(w.compareTo(n.word) < 0){
+      if(n.left == null){
+        n.left = new Node(w, n);
+        size++;
+      }else{
+        bstInsert(n.left,w);
+      }
+    }else if(w.compareTo(n.word) > 0){
+      if(n.right == null){
+        n.right = new Node(w, n);
+        size++;
+      }else{
+        bstInsert(n.right, w);
+      }
+    }
   }
 
   /** insert w into the tree, maintaining AVL balance
   *  precondition: the tree is AVL balanced and any prior insertions have been
   *  performed by this method. */
   public void avlInsert(String w) {
-    // TODO
+    if(root == null){
+      root = new Node(w);
+      size = 1;
+    }
+    avlInsert(root, w);
   }
 
   /* insert w into the tree, maintaining AVL balance
@@ -60,13 +78,45 @@ public class AVL {
   /** do a left rotation: rotate on the edge from x to its right child.
   *  precondition: x has a non-null right child */
   public void leftRotate(Node x) {
-    // TODO
+    Node y = x.right;
+    y.parent = x.parent;
+    if(y.left != null) {
+      x.right = y.left;
+      y.left.parent = x;
+    }
+    if(x.parent == null){
+      root = y;
+    }else if(x == x.parent.left){
+      x.parent.left =y;
+    }else{
+      x.parent.right = y;
+    }
+    y.left = x;
+    x.parent = y;
+    updateHeight(y);
+    updateHeight(x);
   }
 
   /** do a right rotation: rotate on the edge from x to its left child.
   *  precondition: y has a non-null left child */
   public void rightRotate(Node y) {
-    // TODO
+    Node x = y.left;
+    if(x.right != null){
+      y.left = x.right;
+      x.right.parent = y;
+    }
+    x.parent = y.parent;
+    if(y.parent == null){
+      x = root;
+    }else if(y.parent.left == y){
+      y.parent.left = x;
+    }else{
+      y.parent.right = x;
+    }
+    x.right = y;
+    y.parent = x;
+    updateHeight(y);
+    updateHeight(x);
   }
 
   /** rebalance a node N after a potentially AVL-violoting insertion.
@@ -75,6 +125,19 @@ public class AVL {
     // TODO
   }
 
+
+  private int balance(Node n){
+    return height(n.right) - height(n.left);
+  }
+  private int height(Node n){
+    if(n == null) return -1;
+    return n.height;
+  }
+
+  private void updateHeight(Node n){
+    if(height(n.left) > height(n.right)) n.height = 1 + height(n.left);
+    else n.height = 1 + height(n.right);
+  }
   /** remove the word w from the tree */
   public void remove(String w) {
     remove(root, w);
