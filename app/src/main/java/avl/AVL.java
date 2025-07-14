@@ -79,11 +79,11 @@ public class AVL {
   *  precondition: x has a non-null right child */
   public void leftRotate(Node x) {
     Node y = x.right;
-    y.parent = x.parent;
+    x.right = y.left;
     if(y.left != null) {
-      x.right = y.left;
       y.left.parent = x;
     }
+    y.parent = x.parent;
     if(x.parent == null){
       root = y;
     }else if(x == x.parent.left){
@@ -93,16 +93,16 @@ public class AVL {
     }
     y.left = x;
     x.parent = y;
-    updateHeight(y);
     updateHeight(x);
+    updateHeight(y);
   }
 
   /** do a right rotation: rotate on the edge from x to its left child.
   *  precondition: y has a non-null left child */
   public void rightRotate(Node y) {
     Node x = y.left;
+    y.left = x.right;
     if(x.right != null){
-      y.left = x.right;
       x.right.parent = y;
     }
     x.parent = y.parent;
@@ -117,6 +117,7 @@ public class AVL {
     y.parent = x;
     updateHeight(y);
     updateHeight(x);
+    
   }
 
   /** rebalance a node N after a potentially AVL-violoting insertion.
