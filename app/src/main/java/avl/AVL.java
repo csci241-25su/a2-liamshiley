@@ -72,7 +72,22 @@ public class AVL {
   /* insert w into the tree, maintaining AVL balance
    *  precondition: the tree is AVL balanced and n is not null */
   private void avlInsert(Node n, String w) {
-    // TODO
+     if(w.compareTo(n.word) < 0){
+      if(n.left == null){
+        n.left = new Node(w, n);
+        size++;
+      }else{
+        avlInsert(n.left, w);
+      }
+    }else if(w.compareTo(n.word) >= 0){
+      if(n.right == null){
+        n.right = new Node(w, n);
+        size++;
+      }else{
+        avlInsert(n.right, w);
+      }
+    }
+    rebalance(n);
   }
 
   /** do a left rotation: rotate on the edge from x to its right child.
