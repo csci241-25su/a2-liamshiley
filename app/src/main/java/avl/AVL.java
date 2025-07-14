@@ -107,7 +107,7 @@ public class AVL {
     }
     x.parent = y.parent;
     if(y.parent == null){
-      x = root;
+      root = x;
     }else if(y.parent.left == y){
       y.parent.left = x;
     }else{
