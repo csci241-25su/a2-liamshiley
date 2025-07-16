@@ -65,6 +65,7 @@ public class AVL {
     if(root == null){
       root = new Node(w);
       size = 1;
+      return;
     }
     avlInsert(root, w);
   }
@@ -87,6 +88,7 @@ public class AVL {
         avlInsert(n.right, w);
       }
     }
+    updateHeight(n);
     rebalance(n);
   }
 
