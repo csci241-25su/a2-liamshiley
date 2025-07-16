@@ -80,13 +80,15 @@ public class AVL {
       }else{
         avlInsert(n.left, w);
       }
-    }else if(w.compareTo(n.word) >= 0){
+    }else if(w.compareTo(n.word) > 0){
       if(n.right == null){
         n.right = new Node(w, n);
         size++;
       }else{
         avlInsert(n.right, w);
       }
+    }else{
+      return;
     }
     updateHeight(n);
     rebalance(n);
