@@ -138,7 +138,24 @@ public class AVL {
   /** rebalance a node N after a potentially AVL-violoting insertion.
   *  precondition: none of n's descendants violates the AVL property */
   public void rebalance(Node n) {
-    // TODO
+      int balance = balance(n);
+      if(balance < -1){
+        int childBalance = balance(n.left);
+        if(childBalance <=0){
+           rightRotate(n);
+          }else{  
+            leftRotate(n.left);
+            rightRotate(n);
+          } 
+      }else if(balance > 1){
+        int childBalance = balance(n.right);
+        if(childBalance >= 0){
+          leftRotate(n);
+        }else{
+          rightRotate(n.right);
+          leftRotate(n);
+        }
+      }
   }
 
 
